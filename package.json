@@ -1,0 +1,22 @@
+{
+  "name": "Teacher Portal",
+  "description": "Teacher Portal PWA - Manage classes, attendance, assignments, and more",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "build": "echo 'No build step required for PWA'",
+    "deploy": "git push origin main"
+  },
+  "keywords": [
+    "teacher",
+    "portal",
+    "pwa",
+    "education",
+    "classroom",
+    "attendance",
+    "assignment",
+    "offline"
+  ],
+  "author": "jb6122999",
+  "license": "MIT"
+}
