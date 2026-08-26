@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Teacher Portal - A PWA for managing classes, attendance, assignments, and more">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Teacher Portal">
+    <link rel="apple-touch-icon" href="images/icon-192.png">
+    
+    <title>Teacher Portal</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="images/icon-192.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">📚 Teacher Portal</h1>
+                <div class="header-actions">
+                    <button id="darkModeToggle" class="btn-icon" title="Toggle dark mode">🌙</button>
+                    <button id="menuToggle" class="btn-icon" title="Menu">☰</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <ul class="nav-menu">
+                <li><a href="#" data-page="dashboard" class="nav-link active">📊 Dashboard</a></li>
+                <li><a href="#" data-page="classes" class="nav-link">📖 My Classes</a></li>
+                <li><a href="#" data-page="attendance" class="nav-link">✓ Attendance</a></li>
+                <li><a href="#" data-page="students" class="nav-link">👥 Students</a></li>
+                <li><a href="#" data-page="lessons" class="nav-link">📝 Lesson Plans</a></li>
+                <li><a href="#" data-page="timetable" class="nav-link">⏰ Timetable</a></li>
+                <li><a href="#" data-page="assignments" class="nav-link">✏️ Assignments</a></li>
+                <li><a href="#" data-page="notices" class="nav-link">📣 Notices</a></li>
+                <li><a href="#" data-page="settings" class="nav-link">⚙️ Settings</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <section id="dashboard" class="page active">
+                <div class="container">
+                    <h2>Dashboard</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Total Classes</h3>
+                            <p class="stat-number" id="totalClasses">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Total Students</h3>
+                            <p class="stat-number" id="totalStudents">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Pending Assignments</h3>
+                            <p class="stat-number" id="pendingAssignments">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Attendance Today</h3>
+                            <p class="stat-number" id="attendanceToday">0%</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-section">
+                        <h3>Quick Actions</h3>
+                        <button class="btn btn-primary" onclick="navigateToPage('attendance')">Mark Attendance</button>
+                        <button class="btn btn-primary" onclick="navigateToPage('assignments')">Create Assignment</button>
+                        <button class="btn btn-primary" onclick="navigateToPage('notices')">Post Notice</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- My Classes Page -->
+            <section id="classes" class="page">
+                <div class="container">
+                    <h2>My Classes</h2>
+                    <button class="btn btn-primary" onclick="openAddClassModal()">+ Add Class</button>
+                    <div id="classesList" class="list-container"></div>
+                </div>
+            </section>
+
+            <!-- Attendance Page -->
+            <section id="attendance" class="page">
+                <div class="container">
+                    <h2>Attendance</h2>
+                    <div class="form-group">
+                        <label>Select Class:</label>
+                        <select id="attendanceClass" class="form-control" onchange="loadAttendanceStudents()">
+                            <option value="">-- Choose a class --</option>
+                        </select>
+                    </div>
+                    <div id="attendanceList" class="attendance-container"></div>
+                    <button class="btn btn-success" onclick="saveAttendance()">Save Attendance</button>
+                </div>
+            </section>
+
+            <!-- Students Page -->
+            <section id="students" class="page">
+                <div class="container">
+                    <h2>Students</h2>
+                    <button class="btn btn-primary" onclick="openAddStudentModal()">+ Add Student</button>
+                    <div id="studentsList" class="list-container"></div>
+                </div>
+            </section>
+
+            <!-- Lesson Plans Page -->
+            <section id="lessons" class="page">
+                <div class="container">
+                    <h2>Lesson Plans</h2>
+                    <button class="btn btn-primary" onclick="openAddLessonModal()">+ Create Lesson Plan</button>
+                    <div id="lessonsList" class="list-container"></div>
+                </div>
+            </section>
+
+            <!-- Timetable Page -->
+            <section id="timetable" class="page">
+                <div class="container">
+                    <h2>Timetable</h2>
+                    <div id="timetableView" class="timetable-container"></div>
+                    <button class="btn btn-primary" onclick="openAddSlotModal()">+ Add Time Slot</button>
+                </div>
+            </section>
+
+            <!-- Assignments Page -->
+            <section id="assignments" class="page">
+                <div class="container">
+                    <h2>Assignments</h2>
+                    <button class="btn btn-primary" onclick="openAddAssignmentModal()">+ Create Assignment</button>
+                    <div id="assignmentsList" class="list-container"></div>
+                </div>
+            </section>
+
+            <!-- Notices Page -->
+            <section id="notices" class="page">
+                <div class="container">
+                    <h2>Notices</h2>
+                    <button class="btn btn-primary" onclick="openAddNoticeModal()">+ Post Notice</button>
+                    <div id="noticesList" class="list-container"></div>
+                </div>
+            </section>
+
+            <!-- Settings Page -->
+            <section id="settings" class="page">
+                <div class="container">
+                    <h2>Settings</h2>
+                    <div class="settings-group">
+                        <h3>Backup & Export</h3>
+                        <button class="btn btn-secondary" onclick="exportDataAsJSON()">📥 Export Data (JSON)</button>
+                        <button class="btn btn-secondary" onclick="importDataFromJSON()">📤 Import Data (JSON)</button>
+                    </div>
+                    <div class="settings-group">
+                        <h3>Data Management</h3>
+                        <button class="btn btn-danger" onclick="clearAllData()">🗑️ Clear All Data</button>
+                    </div>
+                    <div class="settings-group">
+                        <h3>About</h3>
+                        <p>Teacher Portal PWA v1.0</p>
+                        <p>Progressive Web App for managing classes and students</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/ui.js"></script>
+</body>
+</html>
